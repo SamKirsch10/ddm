@@ -66,6 +66,26 @@ class AppDelegate: NSObject,NSApplicationDelegate {
             action: #selector(AppDelegate.monitorInputUSBC),
             keyEquivalent: ""
         )
+        let pipDropdown = NSMenuItem(title: "PIP", action: nil, keyEquivalent: "")
+        let pipMenu = NSMenu()
+        pipMenu.addItem(
+            withTitle: "HDMI",
+            action: #selector(AppDelegate.monitorPIPHDMI),
+            keyEquivalent: "")
+        pipMenu.addItem(
+            withTitle: "DP",
+            action: #selector(AppDelegate.monitorPIPDP),
+            keyEquivalent: "")
+        pipMenu.addItem(
+            withTitle: "USB-C",
+            action: #selector(AppDelegate.monitorPIPUSBC),
+            keyEquivalent: "")
+        pipMenu.addItem(
+            withTitle: "Off",
+            action: #selector(AppDelegate.monitorPIPOff),
+            keyEquivalent: "")
+        menu.setSubmenu(pipMenu, for: pipDropdown)
+        menu.addItem(pipDropdown)
         menu.addItem(
             withTitle: "Quit",
             action: #selector(AppDelegate.quit),
@@ -104,6 +124,52 @@ class AppDelegate: NSObject,NSApplicationDelegate {
     @objc func monitorInputUSBC() {
         do {
             let out = try shell(resourcePath + " -d 1 -i 27")
+            print(out)
+        }
+        catch {
+            print("error? \(error)")
+        }
+    }
+    
+    @objc func monitorPIPHDMI() {
+        do {
+            let out = try shell(resourcePath + " -d 1 -pbp 36")
+            print(out)
+            let out2 = try shell(resourcePath + " -d 1 -pbp-screen 17")
+            print(out2)
+        }
+        catch {
+            print("error? \(error)")
+        }
+    }
+    
+    @objc func monitorPIPDP() {
+        do {
+            let out = try shell(resourcePath + " -d 1 -pbp 36")
+            print(out)
+            let out2 = try shell(resourcePath + " -d 1 -pbp-screen 15")
+            print(out2)
+        }
+        catch {
+            print("error? \(error)")
+        }
+    }
+    
+    @objc func monitorPIPUSBC() {
+        do {
+            let out = try shell(resourcePath + " -d 1 -pbp 36")
+            print(out)
+            let out2 = try shell(resourcePath + " -d 1 -pbp-screen 27")
+            print(out2)
+        }
+        catch {
+            print("error? \(error)")
+        }
+    }
+    
+    @objc func monitorPIPOff() {
+        do {
+            let out = try shell(resourcePath + " -d 1 -pbp 0")
             print(out)
         }
         catch {
